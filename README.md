@@ -41,6 +41,8 @@ makeCake.call({ type: 'chocolate' }, "strawberries, cherries, and cinnamon")
 
 This example obviously has less punch now that arrow functions are available. (Perhaps mention in the intro that students can avoid a lot of `bind()` by using arrow functions?)
 
+Another potential test manipulates things in the DOM, but messes up the `this` in the callback
+
 ## Resources
 
 - [MDN: this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
