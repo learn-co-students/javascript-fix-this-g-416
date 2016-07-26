@@ -1,24 +1,12 @@
-const expect = require('expect')
-
-const fs = require('fs')
-const jsdom = require('mocha-jsdom')
-const path = require('path')
-
-
-describe('index', () => {
-
-  jsdom({
-    src: fs.readFileSync(path.resolve(__dirname, '..', 'index.js'), 'utf-8'),
-    html: fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8')
-  })
-  describe('cook functions', () => {
+describe('index', function() {
+  describe('cook functions', function() {
 
     let update
-    before(() => {
+    before(function() {
       update = updateStatus.bind(document.getElementById("pie"))
     })
 
-    describe('decorate', () => {
+    describe('decorate', function() {
       it('it applies serve with correct args', function(done) {
         this.timeout(5000)
         var serveSpy = expect.spyOn(serve, "apply")
@@ -31,8 +19,8 @@ describe('index', () => {
       })
     })
 
-    describe('cool', () => {
-      it('calls the update function', () => {
+    describe('cool', function() {
+      it('calls the update function', function() {
         cool.call(pie, update)
         expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/cool!/)
       })
@@ -50,8 +38,8 @@ describe('index', () => {
       })
     })
 
-    describe('bake', () => {
-      it('calls the update function', () => {
+    describe('bake', function() {
+      it('calls the update function', function() {
         bake.call(pie, update)
         expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/Baking at/)
       })
@@ -69,8 +57,8 @@ describe('index', () => {
 
     })
 
-    describe('mix', () => {
-      it('calls the update function', () => {
+    describe('mix', function() {
+      it('calls the update function', function() {
         mix.call(pie, update)
         expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/Mixing/)
       })
@@ -89,8 +77,8 @@ describe('index', () => {
     })
   })
 
-  describe('makeDessert', () => {
-    it('calls the right function', () => {
+  describe('makeDessert', function() {
+    it('calls the right function', function() {
       var pieNode = document.getElementById("pie")
       var cakeNode = document.getElementById("cake")
       var makeCakeSpy = expect.spyOn(makeCake, "call")
@@ -104,14 +92,14 @@ describe('index', () => {
     })
   })
 
-  describe('cake', () => {
-    it('has a decorate function', () => {
+  describe('cake', function() {
+    it('has a decorate function', function() {
       expect(cake.decorate).toExist()
     })
   })
 
-  describe('pie', () => {
-    it('borrows the decorate function from cake', () => {
+  describe('pie', function() {
+    it('borrows the decorate function from cake', function() {
       var spy = expect.spyOn(cake.decorate, "bind").andCallThrough()
       makePie.call(document.getElementById("pie"))
       expect(pie.decorate).toExist()
