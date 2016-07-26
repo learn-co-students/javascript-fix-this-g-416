@@ -37,19 +37,19 @@ function updateStatus(statusText) {
   this.getElementsByClassName("status")[0].innerText = statusText
 }
 
+function bake(updateFunction) {
+  var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
+  setTimeout(function() {
+    cool(updateFunction)
+  }, 2000)
+}
+
 function mix(updateFunction) {
   var status = "Mixing " + this.ingredients.join(", ")
   setTimeout(function() {
     bake(updateFunction)
   }, 2000)
   updateFunction(status)
-}
-
-function bake(updateFunction) {
-  var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
-  setTimeout(function() {
-    cool(updateFunction)
-  }, 2000)
 }
 
 function cool(updateFunction) {
