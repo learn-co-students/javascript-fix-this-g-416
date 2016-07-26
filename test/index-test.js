@@ -24,6 +24,7 @@ describe('index', function() {
     describe('decorate', function() {
       it('it applies serve with correct args', function() {
         var serveSpy = expect.spyOn(serve, "apply")
+
         cake.decorate(update)
 
         this.clock.tick(3000)
@@ -32,6 +33,26 @@ describe('index', function() {
           cake,
           ["Happy Eating!", cake.customer]
         )
+      })
+    })
+
+    describe('bake', function() {
+      it('calls the update function', function() {
+        bake.call(pie, update)
+        expect(
+          document.getElementById("pie").getElementsByClassName("status")[0].innerText
+        ).toMatch(/Baking at/)
+      })
+
+      it('calls cool with context', function() {
+        var coolSpy = expect.spyOn(cool, "call")
+
+        bake.call(pie, update)
+
+        this.clock.tick(3000)
+
+        expect(coolSpy).toHaveBeenCalledWith(pie, update)
+        coolSpy.restore()
       })
     })
 
@@ -53,26 +74,6 @@ describe('index', function() {
 
         expect(decorateSpy).toHaveBeenCalledWith(update)
         decorateSpy.restore()
-      })
-    })
-
-    describe('bake', function() {
-      it('calls the update function', function() {
-        bake.call(pie, update)
-        expect(
-          document.getElementById("pie").getElementsByClassName("status")[0].innerText
-        ).toMatch(/Baking at/)
-      })
-
-      it('calls cool with context', function() {
-        var coolSpy = expect.spyOn(cool, "call")
-
-        bake.call(pie, update)
-
-        this.clock.tick(3000)
-
-        expect(coolSpy).toHaveBeenCalledWith(pie, update)
-        coolSpy.restore()
       })
     })
 

@@ -30,25 +30,38 @@ dessert, and update the status for each step as it goes.
 Right now, all our baking functions are mixed up and can't figure out
 their `this`. We've got some work to do before we can open our bakery.
 
-* Inside the `makePie` function, "borrow" the `decorate` function from `cake` and make it available
-  to `pie` through `pie.decorate()` so it can be executed later.
+* Make sure `cake.decorate()` works as expected. **Hint:** Remember that the
+  callback to `setTimeout` *also* needs to be bound to the proper context!
+  Think about using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+  with your `setTimeout` calls.
 
-* For the `bake`, `mix`, and `cool` functions, make
-sure that the function for the next step is being called with the
-correct context, and that the proper `updateFunction` is being called to
-update the status. You'll need to use `call` inside these functions to
-get the tests to pass. **Hint:** Remember that the `function` argument to `setTimeout` *also*
-needs to be bound to the proper context! Think about using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) with your `setTimeout` calls.
+* We don't yet have a way to decorate pies. Inside the `makePie` function,
+  "borrow" the `decorate` function from `cake` and make it available to `pie`
+  through `pie.decorate()` so it can be executed later.
 
-* Write your own code for the `makeDessert` function
-that will decide based on which link was clicked whether to `makePie` or
-`makeCake`. **Hint:** You shouldn't need to alter the code in the
-`document.addEventListener` block, but remember that events also set
-`this` when they are triggered from the DOM.
+* Create a version of `updateStatus` inside of `makePie` and `makeCake` with the
+  correct `this` context, representing either the `pie` or `cake` `<div>`
+  respectively, that you can pass around to the other functions so that each one
+  can execute it and ensure that the right DOM elements are getting updated at
+  each step. You shouldn't need to change `updateStatus` at all.
 
-* Create a version of `updateStatus` inside of `makePie` and `makeCake` with a correct `this` context, representing either the `pie` or `cake` `<div>` respectively, that you can pass around to the other functions so that each one can execute it and ensure that the right DOM elements are getting updated at each step. You shouldn't need to change `updateStatus` at all.
+* For the `bake`, `cool`, and `mix` functions, make sure that the function for
+  the next step (called inside `setTimeout`) is called with the correct context,
+  and that the proper `updateFunction` is being called to update the status.
+  You'll need to use `call` inside these functions to get the tests to pass.
+  **HINT**: Remember what we said about `setTimeout` above?
 
-* There's also some bugs in the code, so make sure the tests are passing and run the page to see it in action and make sure it works! Some tests already pass. Part of your job is to make sure they still pass at the end!
+* Write your `makeDessert` function that will decide based on which link was
+  clicked whether to `makePie` or `makeCake`. **Hint:** You shouldn't need to
+  alter the code in the `document.addEventListener` block, but remember that
+  events also set `this` when they are triggered from the DOM.
+
+* There are also some bugs in the code, so make sure the tests are passing and
+  run the page to see it in action and make sure it works! Some tests already
+  pass. Part of your job is to make sure they still pass at the end!
+
+**REMEMBER**, as you code, you can run `mocha.run()` in the console to see how
+the tests look. Simply refresh the page to try again.
 
 Each step of the way, you should be using what you know about `call`,
 `bind`, and `apply` to make each function set the context for the next
