@@ -1,96 +1,105 @@
-const expect = require('expect')
+describe('index', function() {
+  describe('cook functions', function() {
+    before(function() {
+      let useFakeTimers = null
 
-const fs = require('fs')
-const jsdom = require('mocha-jsdom')
-const path = require('path')
+      if (typeof sinon === 'undefined') {
+        useFakeTimers = require('sinon').useFakeTimers;
+      } else {
+        useFakeTimers = sinon.useFakeTimers
+      }
 
+      this.clock = useFakeTimers();
+    })
 
-describe('index', () => {
-
-  jsdom({
-    src: fs.readFileSync(path.resolve(__dirname, '..', 'index.js'), 'utf-8'),
-    html: fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8')
-  })
-  describe('cook functions', () => {
+    after(function() {
+      this.clock.restore()
+    })
 
     let update
-    before(() => {
+    before(function() {
       update = updateStatus.bind(document.getElementById("pie"))
     })
 
-    describe('decorate', () => {
-      it('it applies serve with correct args', function(done) {
-        this.timeout(5000)
+    describe('decorate', function() {
+      it('it applies serve with correct args', function() {
         var serveSpy = expect.spyOn(serve, "apply")
         cake.decorate(update)
 
-        setTimeout(function() {
-          expect(serveSpy).toHaveBeenCalledWith(cake, ["Happy Eating!", cake.customer])
-          done()
-        }, 3000)
+        this.clock.tick(3000)
+
+        expect(serveSpy).toHaveBeenCalledWith(
+          cake,
+          ["Happy Eating!", cake.customer]
+        )
       })
     })
 
-    describe('cool', () => {
-      it('calls the update function', () => {
+    describe('cool', function() {
+      it('calls the update function', function() {
         cool.call(pie, update)
-        expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/cool!/)
+        expect(
+          document.getElementById("pie").getElementsByClassName("status")[0].innerText
+        ).toMatch(/cool!/)
       })
 
-      it('calls decorate with context', function(done) {
-        this.timeout(5000)
+      it('calls decorate with context', function() {
         pie.decorate = cake.decorate.bind(pie)
         var decorateSpy = expect.spyOn(pie, "decorate")
+
         cool.call(pie, update)
-        setTimeout(function() {
-          expect(decorateSpy).toHaveBeenCalledWith(update)
-          decorateSpy.restore()
-          done()
-        }, 3000)
+
+        this.clock.tick(3000)
+
+        expect(decorateSpy).toHaveBeenCalledWith(update)
+        decorateSpy.restore()
       })
     })
 
-    describe('bake', () => {
-      it('calls the update function', () => {
+    describe('bake', function() {
+      it('calls the update function', function() {
         bake.call(pie, update)
-        expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/Baking at/)
+        expect(
+          document.getElementById("pie").getElementsByClassName("status")[0].innerText
+        ).toMatch(/Baking at/)
       })
 
-      it('calls cool with context', function(done) {
-        this.timeout(5000)
+      it('calls cool with context', function() {
         var coolSpy = expect.spyOn(cool, "call")
-        bake.call(pie, update)
-        setTimeout(function() {
-          expect(coolSpy).toHaveBeenCalledWith(pie, update)
-          coolSpy.restore()
-          done()
-        }, 3000)
-      })
 
+        bake.call(pie, update)
+
+        this.clock.tick(3000)
+
+        expect(coolSpy).toHaveBeenCalledWith(pie, update)
+        coolSpy.restore()
+      })
     })
 
-    describe('mix', () => {
-      it('calls the update function', () => {
+    describe('mix', function() {
+      it('calls the update function', function() {
         mix.call(pie, update)
-        expect(document.getElementById("pie").getElementsByClassName("status")[0].innerText).toMatch(/Mixing/)
+        expect(
+          document.getElementById("pie").getElementsByClassName("status")[0].innerText
+        ).toMatch(/Mixing/)
       })
 
-      it('calls bake with context', function(done) {
-        this.timeout(5000)
+      it('calls bake with context', function() {
         var bakeSpy = expect.spyOn(bake, "call")
+
         mix.call(pie, update)
-        setTimeout(function() {
-          expect(bakeSpy).toHaveBeenCalledWith(pie, update)
-          bakeSpy.restore()
-          done()
-        }, 3000)
+
+        this.clock.tick(3000)
+
+        expect(bakeSpy).toHaveBeenCalledWith(pie, update)
+        bakeSpy.restore()
       })
 
     })
   })
 
-  describe('makeDessert', () => {
-    it('calls the right function', () => {
+  describe('makeDessert', function() {
+    it('calls the right function', function() {
       var pieNode = document.getElementById("pie")
       var cakeNode = document.getElementById("cake")
       var makeCakeSpy = expect.spyOn(makeCake, "call")
@@ -104,14 +113,14 @@ describe('index', () => {
     })
   })
 
-  describe('cake', () => {
-    it('has a decorate function', () => {
+  describe('cake', function() {
+    it('has a decorate function', function() {
       expect(cake.decorate).toExist()
     })
   })
 
-  describe('pie', () => {
-    it('borrows the decorate function from cake', () => {
+  describe('pie', function() {
+    it('borrows the decorate function from cake', function() {
       var spy = expect.spyOn(cake.decorate, "bind").andCallThrough()
       makePie.call(document.getElementById("pie"))
       expect(pie.decorate).toExist()
@@ -119,8 +128,8 @@ describe('index', () => {
     })
   })
 
-  describe('makePie', () => {
-    it('binds an update function', () => {
+  describe('makePie', function() {
+    it('binds an update function', function() {
       var spy = expect.spyOn(updateStatus, "bind").andCallThrough()
       var node = document.getElementById("pie")
       makePie.call(node)
@@ -128,7 +137,7 @@ describe('index', () => {
       spy.restore()
     })
 
-    it('calls mix with context', () => {
+    it('calls mix with context', function() {
       var update = updateStatus.bind(document.getElementById("pie"))
       var spy = expect.spyOn(mix, "call").andCallThrough()
       var node = document.getElementById("pie")
@@ -138,15 +147,15 @@ describe('index', () => {
     })
   })
 
-  describe('makeCake', () => {
-    it('binds an update function', () => {
+  describe('makeCake', function() {
+    it('binds an update function', function() {
       var spy = expect.spyOn(updateStatus, "bind").andCallThrough()
       var node = document.getElementById("cake")
       makeCake.call(node)
       expect(spy).toHaveBeenCalledWith(node)
       spy.restore()
     })
-    it('calls mix with context', () => {
+    it('calls mix with context', function() {
       var update = updateStatus.bind(document.getElementById("cake"))
       var spy = expect.spyOn(mix, "call").andCallThrough()
       var node = document.getElementById("cake")
