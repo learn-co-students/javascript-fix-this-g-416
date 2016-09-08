@@ -2,7 +2,7 @@
 
 ## Overview
 
-In this lab. you'll use `this`, change a function's context, and write modular code. 
+In this lab, you'll use `this`, change a function's context, and write modular code. 
 
 ## Introduction
 
