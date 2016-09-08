@@ -1,11 +1,8 @@
-JavaScript Fix this
----
+# JavaScript Fix this
 
-## Objectives
+## Overview
 
-1. Practice using `this`
-2. Practice changing a function's context
-3. Practice writing modular code
+In this lab, you'll use `this`, change a function's context, and write modular code. 
 
 ## Introduction
 
