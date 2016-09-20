@@ -20,7 +20,7 @@ If you run `index.html` in your browser and click either of the "make" links, it
 
 Right now, all our baking functions are mixed up and can't figure out their `this`. We've got some work to do before we can open our bakery.
 
-* Make sure `cake.decorate()` works as expected. **Hint:** Remember that the callback to `setTimeout` *also* needs to be bound to the proper context.  Think about using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions with your `setTimeout` calls.
+* Make sure `cake.decorate()` works as expected. **Hint:** Remember that the callback to `setTimeout` *also* needs to be bound to the proper context.  Think about using [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) with your `setTimeout` calls.
 
 * We don't yet have a way to decorate pies. Inside the `makePie` function, "borrow" the `decorate` function from `cake` and make it available to `pie` through `pie.decorate()` so it can be executed later.
 
