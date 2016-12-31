@@ -7,10 +7,8 @@ var cake = {
   customer: "Tommy",
   decorate: function(updateFunction) {
     var status = "Decorating with " + this.topping + ". Ready to eat soon!"
-    updateFunction(status)
-    setTimeout(function() {
-      updateFunction(serve.apply(this, "Happy Eating!", this.customer))
-    }, 2000)
+    updateFunction(status);
+    setTimeout( () => updateFunction(serve.apply(this, ["Happy Eating!", this.customer])), 2000)
   }
 }
 
@@ -24,13 +22,14 @@ var pie = {
 }
 
 function makeCake() {
-  var updateCakeStatus;
-  mix(updateCakeStatus)
+  var updateCakeStatus = updateStatus.bind(this);
+  mix.call(cake, updateCakeStatus)
 }
 
 function makePie() {
-  var updatePieStatus;
-  mix(updatePieStatus)
+  var updatePieStatus = updateStatus.bind(this);
+  pie.decorate = cake.decorate.bind(pie);
+  mix.call(pie, updatePieStatus);
 }
 
 function updateStatus(statusText) {
@@ -39,29 +38,33 @@ function updateStatus(statusText) {
 
 function bake(updateFunction) {
   var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
-  setTimeout(function() {
-    cool(updateFunction)
-  }, 2000)
+  setTimeout( () => cool.call(this, updateFunction), 2000);
+  updateFunction(status);
 }
 
 function mix(updateFunction) {
-  var status = "Mixing " + this.ingredients.join(", ")
-  setTimeout(function() {
-    bake(updateFunction)
-  }, 2000)
-  updateFunction(status)
+  var status = "Mixing " + this.ingredients.join(", ");
+  setTimeout( () => bake.call(this, updateFunction), 2000);
+  updateFunction(status);
 }
 
 function cool(updateFunction) {
   var status = "It has to cool! Hands off!"
-  setTimeout(function() {
-    this.decorate(updateFunction)
-  }, 2000)
+  setTimeout( () => this.decorate(updateFunction), 2000);
+  updateFunction(status);
 }
 
-function makeDessert() {
+function makeDessert(cookLinks) {
   //add code here to decide which make... function to call
   //based on which link was clicked
+  if (this.parentNode.id === "cake") {
+    makeCake.call(this.parentNode)
+  } 
+  else if (this.parentNode.id == "pie"){
+    makePie.call(this.parentNode)
+  } else {
+    console.log("WTF??")
+  }
 }
 
 function serve(message, customer) {
@@ -76,3 +79,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     cookLinks[i].addEventListener("click", makeDessert)
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
