@@ -8,8 +8,6 @@
   },
   "main": "index.js",
   "scripts": {
-    "debug": "node-debug --hidden node_modules _mocha --watch",
-    "debug-ide": "./bin/debug-ide",
     "test": "mocha -R mocha-multi --reporter-options nyan=-,json=.results.json"
   },
   "repository": {
@@ -35,7 +33,6 @@
     "mocha": "^2.5.3",
     "mocha-jsdom": "^1.1.0",
     "mocha-multi": "^0.9.0",
-    "node-inspector": "^0.12.8",
     "sinon": "^1.17.5"
   }
 }

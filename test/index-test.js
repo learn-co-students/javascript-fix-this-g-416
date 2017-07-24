@@ -28,6 +28,7 @@ describe('index', function() {
       expect(spy).toHaveBeenCalledWith(node)
       spy.restore()
     })
+
     it('calls mix with context', function() {
       var update = updateStatus.bind(document.getElementById("cake"))
       var spy = expect.spyOn(mix, "call").andCallThrough()
@@ -83,7 +84,8 @@ describe('index', function() {
       this.clock.restore()
     })
 
-    let update
+    let update;
+
     before(function() {
       update = updateStatus.bind(document.getElementById("pie"))
     })
@@ -165,5 +167,4 @@ describe('index', function() {
       })
     })
   })
-
 })
