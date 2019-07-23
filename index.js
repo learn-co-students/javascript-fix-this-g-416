@@ -6,10 +6,11 @@ var cake = {
   bakeTime: "45 minutes",
   customer: "Tommy",
   decorate: function(updateFunction) {
+// debugger
     var status = "Decorating with " + this.topping + ". Ready to eat soon!"
     updateFunction(status)
-    setTimeout(function() {
-      updateFunction(serve.apply(this, "Happy Eating!", this.customer))
+    setTimeout(() => {
+      updateFunction(serve.apply(this, ["Happy Eating!", this.customer]))
     }, 2000)
   }
 }
@@ -24,44 +25,61 @@ var pie = {
 }
 
 function makeCake() {
-  var updateCakeStatus;
-  mix(updateCakeStatus)
+// debugger
+  var updateCakeStatus = updateStatus.bind(this);
+  mix.call(cake, updateCakeStatus)
 }
 
 function makePie() {
-  var updatePieStatus;
-  mix(updatePieStatus)
+// debugger
+  var updatePieStatus = updateStatus.bind(this);
+  pie.decorate = cake.decorate.bind(pie)
+  mix.call(pie, updatePieStatus)
 }
 
 function updateStatus(statusText) {
+// debugger
   this.getElementsByClassName("status")[0].innerText = statusText
 }
 
 function bake(updateFunction) {
+// debugger
   var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
-  setTimeout(function() {
-    cool(updateFunction)
+  setTimeout(() => {
+    cool.call(this, updateFunction)
   }, 2000)
+  updateFunction(status)
 }
 
 function mix(updateFunction) {
+// debugger
   var status = "Mixing " + this.ingredients.join(", ")
-  setTimeout(function() {
-    bake(updateFunction)
+  setTimeout(() => {
+    bake.call(this, updateFunction)
   }, 2000)
   updateFunction(status)
 }
 
 function cool(updateFunction) {
+// debugger
   var status = "It has to cool! Hands off!"
-  setTimeout(function() {
+  setTimeout(() => {
     this.decorate(updateFunction)
   }, 2000)
+  updateFunction(status)
 }
 
 function makeDessert() {
   //add code here to decide which make... function to call
   //based on which link was clicked
+
+  // debugger
+  if(this.parentNode.id === "cake") {
+  	makeCake.call(this.parentNode)
+  } else {
+  	makePie.call(this.parentNode)
+  }
+  
 }
 
 function serve(message, customer) {
